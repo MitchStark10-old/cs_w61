@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 
+from attack.water_attack import WaterAttack
 from cell import *
 from path import *
 from invader import *
@@ -63,7 +64,7 @@ class App:
         self.readPathInfo()
 
         # Create invader and have him move along the path.
-        self._invader = Invader(self._canv, self._path)
+        self._invader = Invader(self._canv, self._path, WaterAttack())
 
 
     def highlight_cell(self, event):

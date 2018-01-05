@@ -35,6 +35,8 @@ class Path:
         return len(self._path)
 
     def get_cell(self, idx):
+        if (idx >= len(self._path)):
+            exit() #this means an invader has made it past the end of the path
         return self._path[idx]
 
 

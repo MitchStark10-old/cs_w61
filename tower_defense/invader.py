@@ -1,9 +1,10 @@
+from character.attackable_character import AttackableCharacter
 
-
-
-
-class Invader:
-    def __init__(self, canvas, path):
+class Invader(AttackableCharacter):
+    def __init__(self, canvas, path, attack):
+        starting_health = 20
+        AttackableCharacter.__init__(self, starting_health)
+        self._attack = attack
         self._canv = canvas
         self._path = path
 
@@ -25,6 +26,8 @@ class Invader:
         self._id = None
         self.render()
 
+    def getAttack(self):
+        return self._attack
 
     def _compute_new_dir(self):
         '''Get (and remember) the next cell in that path, and then
