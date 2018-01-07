@@ -12,5 +12,8 @@ class AttackableCharacter:
     def getAttack(self):
         return self._attack
 
+    def setAttack(self, new_attack):
+        self._attack = new_attack
+
     def getHealth(self):
         return self._health

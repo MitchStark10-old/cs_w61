@@ -1,11 +1,13 @@
 from tkinter import *
 from character.tower import Tower
 from attack.fire_attack import FireAttack
+from attack.water_attack import WaterAttack
+from attack.grass_attack import GrassAttack
 import random
 
 
 class Cell:
-    TYPE2COL = { 'path': 'brown', 'tower': 'black', 'other': 'white' }
+    TYPE2COL = { 'path': 'brown', 'fire-tower': 'red', 'other': 'white', 'water-tower': 'blue', 'grass-tower': 'darkgreen' }
     def __init__(self, canvas, x, y, size, type='other'):
         self._canv = canvas
         self._x = x
@@ -40,8 +42,17 @@ class Cell:
         if (self._type == 'other'):
             #place tower
             self._tower = Tower(FireAttack())
-            self._type = 'tower'
+            self.set_type('fire-tower')
             print("Placed fire tower")
+        elif self._type == 'fire-tower':
+            self._tower.setAttack(WaterAttack())
+            self.set_type('water-tower')
+        elif self._type == 'water-tower':
+            self._tower.setAttack(GrassAttack())
+            self.set_type('grass-tower')
+        elif self._type == 'grass-tower':
+            self._tower.setAttack(FireAttack())
+            self.set_type('fire-tower')
         else:
             print("Can't place tower here")
 
@@ -65,7 +76,6 @@ class Cell:
         return self._uly + (self._size / 2)
 
     def set_type(self, type):
-        assert type in ('path', 'tower', 'other')
         self._type = type     # should use sub-class?
         if self._id is not None:
             self._canv.itemconfig(self._id, fill=Cell.TYPE2COL[self._type])
