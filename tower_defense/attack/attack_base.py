@@ -1,9 +1,9 @@
 class AttackBase:
-    def __init__(self, attack_type, attack_weakness, attack_strength, seconds_between_fire, attack_power):
+    def __init__(self, attack_type, attack_weakness, attack_strength, movements_between_fire, attack_power):
         self._attack_type = attack_type
         self._attack_weakness = attack_weakness
         self._attack_strength = attack_strength
-        self._seconds_between_fire = seconds_between_fire
+        self._movements_between_fire = movements_between_fire
         self._attack_power = attack_power
 
     def getAttackType(self):
@@ -15,8 +15,8 @@ class AttackBase:
     def getAttackStrength(self):
         return self._attack_strength
 
-    def getSecondsBetweenFire(self):
-        return self._seconds_between_fire
+    def getMovementsBetweenFire(self):
+        return self._movements_between_fire
 
     #character to attack can be either tower or invader
     def attack(self, character_to_attack):

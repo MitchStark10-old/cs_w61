@@ -21,7 +21,7 @@ class Invader(AttackableCharacter, implements(Observable)):
         self._dest_cell = self._path.get_cell(0)
         self._x, self._y = self._dest_cell.get_center()
 
-        print("Invader: self._x, y = ", self._x, self._y)
+        print("Invader: self._x, self._y = ", self._x, self._y)
 
         self._compute_new_dir()
 
@@ -30,7 +30,7 @@ class Invader(AttackableCharacter, implements(Observable)):
         self.render()
 
     def addObserver(self, new_observer):
-        self._observers += new_observer
+        self._observers.append(new_observer)
 
     def removeObserver(self, observer):
         self._observers.remove(observer)
@@ -61,12 +61,18 @@ class Invader(AttackableCharacter, implements(Observable)):
             self._ydir = -1
 
     def move(self):
+        if self.getHealth() <= 0:
+            #TODO: Remove this invader from the board
+            self.notifyObservers()
+            return
+
         if (self._x, self._y) == self._dest_cell.get_center():
             # move on to the next cell
             # TODO: HANDLE END OF PATH!
             self._compute_new_dir()
         self._x += self._xdir
         self._y += self._ydir
+        self.notifyObservers()
 
     def render(self):
         self._canv.delete(self._id)

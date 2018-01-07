@@ -16,7 +16,8 @@ INIT_GOLD_AMOUNT = 100
 
 class App:
     def __init__(self, root):
-
+        self.towers = []
+        self.invaders = []
         self._root = root
         self._gameRunning = False
         self._currWaveNumber = 0
@@ -53,7 +54,7 @@ class App:
         for row in range(NUM_CELLS_PER_DIM):
             rowlist = []
             for col in range(NUM_CELLS_PER_DIM):
-                cell = Cell(self._canv, col, row, SQUARE_SIZE)
+                cell = Cell(self._canv, col, row, SQUARE_SIZE, self)
                 rowlist.append(cell)
             self._grid.append(rowlist)
 
@@ -65,6 +66,7 @@ class App:
 
         # Create invader and have him move along the path.
         self._invader = Invader(self._canv, self._path, WaterAttack())
+        self.invaders.append(self._invader)
 
 
     def highlight_cell(self, event):

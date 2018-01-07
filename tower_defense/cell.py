@@ -8,7 +8,8 @@ import random
 
 class Cell:
     TYPE2COL = { 'path': 'brown', 'fire-tower': 'red', 'other': 'white', 'water-tower': 'blue', 'grass-tower': 'darkgreen' }
-    def __init__(self, canvas, x, y, size, type='other'):
+    def __init__(self, canvas, x, y, size, app, type='other'):
+        self._app = app
         self._canv = canvas
         self._x = x
         self._y = y
@@ -42,8 +43,14 @@ class Cell:
         if (self._type == 'other'):
             #place tower
             self._tower = Tower(FireAttack())
+            self._app.towers.append(self._tower)
             self.set_type('fire-tower')
             print("Placed fire tower")
+
+
+            for i in self._app.invaders:
+                i.addObserver(self._tower)
+
         elif self._type == 'fire-tower':
             self._tower.setAttack(WaterAttack())
             self.set_type('water-tower')
