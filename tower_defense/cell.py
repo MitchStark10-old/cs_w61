@@ -1,4 +1,6 @@
 from tkinter import *
+from character.tower import Tower
+from attack.fire_attack import FireAttack
 import random
 
 
@@ -22,6 +24,8 @@ class Cell:
                                                fill=Cell.TYPE2COL[self._type], tag=self._tag)
         self._canv.tag_bind(self._id, "<Enter>", self.highlight)
         self._canv.tag_bind(self._id, "<Leave>", self.clear)
+        self._canv.tag_bind(self._id, "<ButtonPress-1>", self.onClick)
+        self._tower = None
 
     def clear(self, event=None):
         self._mouseIn = False
@@ -31,6 +35,15 @@ class Cell:
         # Show green where the mouse is.
         self._canv.itemconfig(self._id, fill='green')
         self._mouseIn = True
+
+    def onClick(self, event=None):
+        if (self._type == 'other'):
+            #place tower
+            self._tower = Tower(FireAttack())
+            self._type = 'tower'
+            print("Placed fire tower")
+        else:
+            print("Can't place tower here")
 
     def __contains__(self, xy):
         '''Return True if the given x,y tuple is in the rectangle, False

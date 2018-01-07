@@ -4,7 +4,7 @@ import random
 from attack.water_attack import WaterAttack
 from cell import *
 from path import *
-from invader import *
+from character.invader import *
 
 
 CANVAS_DIM = 600

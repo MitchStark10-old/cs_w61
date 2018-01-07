@@ -1,10 +1,13 @@
 from character.attackable_character import AttackableCharacter
+from character.observable import Observable
+from interface import implements
 
-class Invader(AttackableCharacter):
+class Invader(AttackableCharacter, implements(Observable)):
     def __init__(self, canvas, path, attack):
         starting_health = 20
-        AttackableCharacter.__init__(self, starting_health)
-        self._attack = attack
+        attack_range = 3
+        AttackableCharacter.__init__(self, starting_health, attack, attack_range)
+        self._observers = []
         self._canv = canvas
         self._path = path
 
@@ -26,8 +29,15 @@ class Invader(AttackableCharacter):
         self._id = None
         self.render()
 
-    def getAttack(self):
-        return self._attack
+    def addObserver(self, new_observer):
+        self._observers += new_observer
+
+    def removeObserver(self, observer):
+        self._observers.remove(observer)
+
+    def notifyObservers(self):
+        for o in self._observers:
+            o.notify(self)
 
     def _compute_new_dir(self):
         '''Get (and remember) the next cell in that path, and then
