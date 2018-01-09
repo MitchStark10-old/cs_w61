@@ -5,6 +5,7 @@ from attack.water_attack import WaterAttack
 from cell import *
 from path import *
 from character.invader import *
+from character.wave import Wave
 
 
 CANVAS_DIM = 600
@@ -16,6 +17,7 @@ INIT_GOLD_AMOUNT = 100
 
 class App:
     def __init__(self, root):
+        self.wave_count = 1
         self.towers = []
         self.invaders = []
         self._root = root
@@ -63,10 +65,11 @@ class App:
 
         # Read path info from a file and highlight the path on the screen.
         self.readPathInfo()
+        self.wave = Wave(self, self._canv, self._path)
 
-        # Create invader and have him move along the path.
-        self._invader = Invader(self._canv, self._path, WaterAttack())
-        self.invaders.append(self._invader)
+    def sendWave(self):
+        # Create invader wave and let them move
+        self.wave.readAndSendNextWave()
 
 
     def highlight_cell(self, event):
@@ -92,6 +95,7 @@ class App:
             return
         print("Start next wave now...")
         self._timeLeftTilWave.set(TIME_BETWEEN_WAVES)
+        self.sendWave()
 
     def updateTimer(self):
         timeLeft = self._timeLeftTilWave.get()

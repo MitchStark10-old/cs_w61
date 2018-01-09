@@ -42,7 +42,7 @@ class Cell:
     def onClick(self, event=None):
         if (self._type == 'other'):
             #place tower
-            self._tower = Tower(FireAttack())
+            self._tower = Tower(FireAttack(), self._app)
             self._app.towers.append(self._tower)
             self.set_type('fire-tower')
             print("Placed fire tower")
