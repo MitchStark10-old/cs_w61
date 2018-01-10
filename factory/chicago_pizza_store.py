@@ -16,7 +16,7 @@ class ChicagoPizzaStore(PizzaStore):
         if item == "cheese":
             return CheesyDecorator(ChicagoStylePizza(cut_behavior), 'Mozarella')
         elif item == "veggie":
-            return CondimentDecorator(CondimentDecorator(ChicagoStylePizza(cut_behavior), 'Onion'), 'Pepper')
+            return CondimentDecorator(CondimentDecorator(CondimentDecorator(ChicagoStylePizza(cut_behavior), 'Onion'), 'Pepper'), 'Onion')
         elif item == "clam":
             return CondimentDecorator(ChicagoStylePizza(cut_behavior), 'Clam')
         elif item == "pepperoni":
