@@ -17,24 +17,32 @@ class Tower(AttackableCharacter, implements(Observer)):
         for i in self._app.invaders:
             i.addObserver(self)
 
-    def notify(self, observed_invader):
-        if self._target == observed_invader:
-            if observed_invader.getHealth() <= 0:
-                self._target = None
-                if observed_invader in self._app.invaders:
-                    self._app.invaders.remove(observed_invader)
-                    print("made it here")
-                return
-            else:
-                if (self._notification_count % self._attack.getMovementsBetweenFire()) == 0:
-                    print("Attacking!")
-                    self._attack.attack(self._target, self)
-                self._notification_count += 1
+    def updateForInvaderDeath(self, observed_invader):
+        self._target = None
+        if observed_invader in self._app.invaders:
+            self._app.invaders.remove(observed_invader)
+            print("made it here")
 
+    def sendAttack(self):
+        if (self._notification_count % self._attack.getMovementsBetweenFire()) == 0:
+            print("Attacking!")
+            self._attack.attack(self._target, self)
+        self._notification_count += 1
+
+    def reassignTargetWhenNeeded(self, observed_invader):
         if self._target is None:
             #Add as target
             self._target = observed_invader
         #elif observed invader is closer than the target, change targets
+
+    def notify(self, observed_invader):
+        if self._target == observed_invader:
+            if observed_invader.getHealth() <= 0:
+                self.updateForInvaderDeath(observed_invader)
+                return
+            else:
+                self.sendAttack()
+        self.reassignTargetWhenNeeded(observed_invader)
 
     def getXCoord(self):
         return self._cell.get_x()
