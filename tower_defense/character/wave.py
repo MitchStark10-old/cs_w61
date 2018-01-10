@@ -21,14 +21,14 @@ class Wave:
             print("testing...")
             self._sendInvader()
 
-    def _sendInvader(self):
-        print("part 2")
+    def sendInvader(self):
+        #print("part 2")
         if (self.invaders.isEmpty()):
             return
         invader_type = self.invaders.pop()
         attack = self._attack_factory.createAttack(invader_type)
         self._app.invaders.append(Invader(self._canv, self._path, attack))
-        print("complete")
+        #print("complete")
 
     def isWaveFinished(self):
         return self.invaders.isEmpty()
@@ -48,4 +48,3 @@ class Wave:
             self.invaders.push(i)
 
         self.wave_count += 1
-        self._sendWave()

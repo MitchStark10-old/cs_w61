@@ -104,6 +104,7 @@ class App:
         if timeLeft == 0:
             pass
         self._canv.after(1000, self.updateTimer)
+        self.wave.sendInvader()
 
     def readPathInfo(self):
         '''Read path information from a file and create a path object for it.'''
