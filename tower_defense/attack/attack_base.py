@@ -23,6 +23,7 @@ class AttackBase:
 
     #character to attack can be either tower or invader
     def attack(self, character_to_attack, attack_owner):
+        Projectile(self._canv, character_to_attack, attack_owner)
         multiplier = 1
 
         if character_to_attack.getAttack().getAttackType() == self._attack_strength:
@@ -34,4 +35,3 @@ class AttackBase:
 
         character_to_attack.decreaseHealth(hp_affected)
         #create a projectile, which runs until it hits when it deletes itself
-        Projectile(self._canv, character_to_attack, attack_owner)
