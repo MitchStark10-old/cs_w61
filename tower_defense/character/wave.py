@@ -1,8 +1,6 @@
 from character.invader import Invader
 from stack import Stack
-from attack.fire_attack import FireAttack
-from attack.water_attack import WaterAttack
-from attack.grass_attack import GrassAttack
+from attack.attack_factory import AttackFactory
 import json
 from threading import Thread
 import time
@@ -14,6 +12,7 @@ class Wave:
         self._path = path
         self.wave_count = 0
         self.invaders = Stack()
+        self._attack_factory = AttackFactory()
         self.seconds_between_invaders = 0
 
     def _sendWave(self):
@@ -27,19 +26,9 @@ class Wave:
         if (self.invaders.isEmpty()):
             return
         invader_type = self.invaders.pop()
-        attack = self._getInvaderAttackBehavior(invader_type)
+        attack = self._attack_factory.createAttack(invader_type)
         self._app.invaders.append(Invader(self._canv, self._path, attack))
         print("complete")
-
-    def _getInvaderAttackBehavior(self, invader_type):
-        if invader_type == 'f':
-            return FireAttack()
-        elif invader_type == 'g':
-            return GrassAttack()
-        elif invader_type == 'w':
-            return WaterAttack()
-        else:
-            raise ValueError("Bad Value sent to _getInvaderAttackBehavior: " + invader_type)
 
     def isWaveFinished(self):
         return self.invaders.isEmpty()
