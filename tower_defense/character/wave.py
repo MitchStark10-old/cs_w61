@@ -15,18 +15,12 @@ class Wave:
         self._attack_factory = AttackFactory()
         self.seconds_between_invaders = 0
 
-    def _sendWave(self):
-        #begin sending invaders one at a time
-        while not self.invaders.isEmpty():
-            print("testing...")
-            self._sendInvader()
-
     def sendInvader(self):
         #print("part 2")
         if (self.invaders.isEmpty()):
             return
         invader_type = self.invaders.pop()
-        attack = self._attack_factory.createAttack(invader_type)
+        attack = self._attack_factory.createAttack(self._canv, invader_type)
         i = Invader(self._canv, self._path, attack)
         for t in self._app.towers:
             i.addObserver(t)

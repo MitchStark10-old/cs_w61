@@ -17,3 +17,12 @@ class AttackableCharacter:
 
     def getHealth(self):
         return self._health
+
+    def getXCoord(self):
+        raise NotImplementedError()
+
+    def getYCoord(self):
+        raise NotImplementedError()
+
+    def getCoordinates(self):
+        raise NotImplementedError()

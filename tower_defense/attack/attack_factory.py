@@ -3,12 +3,12 @@ from attack.water_attack import WaterAttack
 from attack.grass_attack import GrassAttack
 
 class AttackFactory:
-    def createAttack(self, attack_type):
+    def createAttack(self, canv, attack_type):
         if attack_type == 'f':
-            return FireAttack()
+            return FireAttack(canv)
         elif attack_type == 'g':
-            return GrassAttack()
+            return GrassAttack(canv)
         elif attack_type == 'w':
-            return WaterAttack()
+            return WaterAttack(canv)
         else:
             raise ValueError("Bad Value sent to _getInvaderAttackBehavior: " + attack_type)

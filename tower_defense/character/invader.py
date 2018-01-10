@@ -86,6 +86,15 @@ class Invader(AttackableCharacter, implements(Observable)):
         self._y += self._ydir
         self.notifyObservers()
 
+    def getXCoord(self):
+        return self._x
+
+    def getYCoord(self):
+        return self._y
+
+    def getCoordinates(self):
+        return (self._x, self._y)
+
     def render(self):
         self._canv.delete(self._id)
         self.move()

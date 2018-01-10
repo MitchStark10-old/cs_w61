@@ -42,19 +42,19 @@ class Cell:
     def onClick(self, event=None):
         if (self._type == 'other'):
             #place tower
-            self._tower = Tower(FireAttack(), self._app)
+            self._tower = Tower(FireAttack(self._canv), self._app, self)
             self._app.towers.append(self._tower)
             self.set_type('fire-tower')
             print("Placed fire tower")
 
         elif self._type == 'fire-tower':
-            self._tower.setAttack(WaterAttack())
+            self._tower.setAttack(WaterAttack(self._canv))
             self.set_type('water-tower')
         elif self._type == 'water-tower':
-            self._tower.setAttack(GrassAttack())
+            self._tower.setAttack(GrassAttack(self._canv))
             self.set_type('grass-tower')
         elif self._type == 'grass-tower':
-            self._tower.setAttack(FireAttack())
+            self._tower.setAttack(FireAttack(self._canv))
             self.set_type('fire-tower')
         else:
             print("Can't place tower here")
