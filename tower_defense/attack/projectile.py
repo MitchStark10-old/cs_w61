@@ -28,12 +28,14 @@ class Projectile:
         self._ydir = math.sin(angle)
 
 
-    def move(self):
+    def checkForFinished(self):
         targetX = int(self._target.getXCoord())
         targetY = int(self._target.getYCoord())
         if int(self._x) in range(targetX-4, targetX+4) and int(self._y) in range(targetY-4, targetY+5):
             self._finished = True
-            return
+
+    def move(self):
+        self.checkForFinished()
         self._x += self._xdir*3
         self._y += self._ydir*3
         self._compute_new_dir()
