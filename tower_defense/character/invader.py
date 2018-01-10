@@ -7,6 +7,7 @@ class Invader(AttackableCharacter, implements(Observable)):
         starting_health = 20
         attack_range = 3
         AttackableCharacter.__init__(self, starting_health, attack, attack_range)
+        self._color = self.getColorByAttackType()
         self._observers = []
         self._canv = canvas
         self._path = path
@@ -28,6 +29,17 @@ class Invader(AttackableCharacter, implements(Observable)):
         # identifier for the circle we draw to represent the invader
         self._id = None
         self.render()
+
+    def getColorByAttackType(self):
+        attack_type = self.getAttack().getAttackType()
+        if (attack_type == "fire"):
+            return "red"
+        elif (attack_type == "water"):
+            return "blue"
+        elif (attack_type == "grass"):
+            return "darkgreen"
+        else:
+            raise ValueError("Attack type [" + attack_type + "] not valid")
 
     def addObserver(self, new_observer):
         self._observers.append(new_observer)
@@ -79,7 +91,7 @@ class Invader(AttackableCharacter, implements(Observable)):
         self.move()
         self._id = self._canv.create_oval(self._x - self._size, self._y - self._size,
                                           self._x + self._size, self._y + self._size,
-                                          fill = "black")
+                                          fill = self._color)
         # TODO: not sure this is where I want this to happen...
         self._canv.after(30, self.render)
                                           
