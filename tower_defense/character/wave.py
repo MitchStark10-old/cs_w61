@@ -27,7 +27,10 @@ class Wave:
             return
         invader_type = self.invaders.pop()
         attack = self._attack_factory.createAttack(invader_type)
-        self._app.invaders.append(Invader(self._canv, self._path, attack))
+        i = Invader(self._canv, self._path, attack)
+        for t in self._app.towers:
+            i.addObserver(t)
+        self._app.invaders.append(i)
         #print("complete")
 
     def isWaveFinished(self):

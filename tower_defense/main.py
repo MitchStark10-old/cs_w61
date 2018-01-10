@@ -121,5 +121,6 @@ class App:
 root = Tk()
 root.title("Calvin Tower Defense")
 App(root)
+root.wm_attributes('-topmost', 1)
 root.mainloop()
 

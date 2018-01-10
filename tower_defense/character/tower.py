@@ -6,15 +6,19 @@ class Tower(AttackableCharacter, implements(Observer)):
     def __init__(self, attack, app):
         self._notification_count = 0
         self._app = app
+        self.subscribeToAllInvaders()
         start_health = 35
         attack_range = 5
         AttackableCharacter.__init__(self, start_health, attack, attack_range)
         self._target = None
 
+    def subscribeToAllInvaders(self):
+        for i in self._app.invaders:
+            i.addObserver(self)
+
     def notify(self, observed_invader):
         if self._target == observed_invader:
             if observed_invader.getHealth() <= 0:
-                print("Invader has died!")
                 self._target = None
                 if observed_invader in self._app.invaders:
                     self._app.invaders.remove(observed_invader)

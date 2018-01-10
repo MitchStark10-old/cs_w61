@@ -47,10 +47,6 @@ class Cell:
             self.set_type('fire-tower')
             print("Placed fire tower")
 
-
-            for i in self._app.invaders:
-                i.addObserver(self._tower)
-
         elif self._type == 'fire-tower':
             self._tower.setAttack(WaterAttack())
             self.set_type('water-tower')
