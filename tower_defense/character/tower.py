@@ -9,7 +9,7 @@ class Tower(AttackableCharacter, implements(Observer)):
         self._cell = cell
         self.subscribeToAllInvaders()
         start_health = 35
-        attack_range = 5
+        attack_range = 5 * 30 #5 cells * 30 pxl per cell
         AttackableCharacter.__init__(self, start_health, attack, attack_range)
         self._target = None
 
@@ -23,7 +23,22 @@ class Tower(AttackableCharacter, implements(Observer)):
             self._app.invaders.remove(observed_invader)
             print("made it here")
 
+    def _targetOutOfRange(self):
+        invader_x, invader_y = self._target.getCoordinates()
+        self_x, self_y = self.getCoordinates()
+
+        if (invader_x < self_x + self._attack_range) and (invader_x > self_x - self._attack_range):
+            if (invader_y < self_y + self._attack_range) and (invader_y > self_y - self._attack_range):
+                print("here")
+                return False
+
+        return True
+
     def sendAttack(self):
+        if (self._targetOutOfRange()):
+            self._target = None
+            return
+
         if (self._notification_count % self._attack.getMovementsBetweenFire()) == 0:
             print("Attacking!")
             self._attack.attack(self._target, self)
@@ -33,15 +48,14 @@ class Tower(AttackableCharacter, implements(Observer)):
         if self._target is None:
             #Add as target
             self._target = observed_invader
-        #elif observed invader is closer than the target, change targets
 
     def notify(self, observed_invader):
         if self._target == observed_invader:
             if observed_invader.getHealth() <= 0:
                 self.updateForInvaderDeath(observed_invader)
-                return
             else:
                 self.sendAttack()
+            return
         self.reassignTargetWhenNeeded(observed_invader)
 
     def getXCoord(self):
