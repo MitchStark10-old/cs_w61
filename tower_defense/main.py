@@ -6,6 +6,7 @@ from cell import *
 from path import *
 from character.invader import *
 from character.wave import Wave
+from bank import Bank
 
 
 CANVAS_DIM = 600
@@ -17,6 +18,7 @@ INIT_GOLD_AMOUNT = 100
 
 class App:
     def __init__(self, root):
+        self._bank = Bank()
         self.wave_count = 1
         self.towers = []
         self.invaders = []

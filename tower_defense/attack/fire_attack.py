@@ -9,7 +9,6 @@ class FireAttack(AttackBase):
         movements_between_attack = 50
         attack_power = 5
         AttackBase.__init__(self, attack_type, weakness_type, strength_type, movements_between_attack, attack_power, canv)
-        print("fire attack object created")
 
     def getCellRange(self):
         return 5
