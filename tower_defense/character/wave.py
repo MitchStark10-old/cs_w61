@@ -34,6 +34,7 @@ class Wave:
     def readAndSendNextWave(self):
         if not self.isWaveFinished():
             print("Cannot start new wave during active wave!")
+            return
 
         json_data = open('wave_' + str(self.wave_count) + '.json').read()
 

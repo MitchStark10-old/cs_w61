@@ -10,3 +10,6 @@ class GrassAttack(AttackBase):
         attack_power = 2
         AttackBase.__init__(self, attack_type, weakness_type, strength_type, movements_between_attack, attack_power, canv)
         print("grass attack object created")
+
+    def getCellRange(self):
+        return 3

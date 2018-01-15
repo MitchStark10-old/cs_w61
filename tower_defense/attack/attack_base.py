@@ -8,6 +8,9 @@ class AttackBase:
         self._movements_between_fire = movements_between_fire
         self._attack_power = attack_power
         self._canv = canv
+    
+    def getCellRange(self):
+        raise NotImplementedError()
 
     def getAttackType(self):
         return self._attack_type
