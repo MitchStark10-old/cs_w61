@@ -8,6 +8,7 @@ import time
 class Wave:
     def __init__(self, app, canv, path):
         self._app = app
+        self._bank = app._bank
         self._canv = canv
         self._path = path
         self.wave_count = 0
@@ -21,7 +22,7 @@ class Wave:
             return
         invader_type = self.invaders.pop()
         attack = self._attack_factory.createAttack(self._canv, invader_type)
-        i = Invader(self._canv, self._path, attack)
+        i = Invader(self._canv, self._path, self._bank, attack)
         for t in self._app.towers:
             i.addObserver(t)
         self._app.invaders.append(i)

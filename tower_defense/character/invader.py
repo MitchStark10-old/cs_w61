@@ -3,7 +3,7 @@ from character.observable import Observable
 from interface import implements
 
 class Invader(AttackableCharacter, implements(Observable)):
-    def __init__(self, canvas, path, attack):
+    def __init__(self, canvas, path, bank, attack):
         starting_health = 20
         attack_range = 3
         AttackableCharacter.__init__(self, starting_health, attack, attack_range)
@@ -11,6 +11,8 @@ class Invader(AttackableCharacter, implements(Observable)):
         self._observers = []
         self._canv = canvas
         self._path = path
+        self._bank = bank
+        self._alive = True
 
         self._size = 4   # radius of circle to draw (for now)
 
@@ -51,6 +53,9 @@ class Invader(AttackableCharacter, implements(Observable)):
         for o in self._observers:
             o.notify(self)
 
+    def removeAllObservers(self):
+        self._observers = []
+
     def _compute_new_dir(self):
         '''Get (and remember) the next cell in that path, and then
         compute the xdir and ydir to get us from our current position
@@ -75,7 +80,10 @@ class Invader(AttackableCharacter, implements(Observable)):
     def move(self):
         if self.getHealth() <= 0:
             #TODO: Remove this invader from the board
-            self.notifyObservers()
+            if self._alive:
+                self.notifyObservers()
+                self._bank.getInvaderRansom()
+                self._alive = False
             return
 
         if (self._x, self._y) == self._dest_cell.get_center():

@@ -9,3 +9,6 @@ class Observable(Interface):
 
     def notifyObservers(self):
         pass
+
+    def removeAllObservers(self):
+        pass
