@@ -81,9 +81,9 @@ class Invader(AttackableCharacter, implements(Observable)):
         if self.getHealth() <= 0:
             #TODO: Remove this invader from the board
             if self._alive:
-                self.notifyObservers()
                 self._bank.getInvaderRansom()
                 self._alive = False
+            self.notifyObservers()
             return
 
         if (self._x, self._y) == self._dest_cell.get_center():

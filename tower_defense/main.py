@@ -18,7 +18,7 @@ INIT_GOLD_AMOUNT = 100
 
 class App:
     def __init__(self, root):
-        self._bank = Bank()
+        self._bank = Bank(self)
         self.wave_count = 1
         self.towers = []
         self.invaders = []
@@ -39,7 +39,7 @@ class App:
 
         Label(self._bottom_panel, text="Gold: ").pack(side=LEFT)
         self._goldAmtVar = IntVar()
-        self._goldAmtVar.set(INIT_GOLD_AMOUNT)
+        self._goldAmtVar.set(self._bank.getMoney())
         self._goldLbl = Label(self._bottom_panel, textvariable=self._goldAmtVar)
         self._goldLbl.pack(side=LEFT)
 
@@ -68,6 +68,10 @@ class App:
         # Read path info from a file and highlight the path on the screen.
         self.readPathInfo()
         self.wave = Wave(self, self._canv, self._path)
+
+
+    def updateGoldAmount(self, new_gold_amount):
+        self._goldAmtVar.set(new_gold_amount)
 
     def sendWave(self):
         # Create invader wave and let them move

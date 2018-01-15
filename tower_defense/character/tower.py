@@ -19,7 +19,7 @@ class Tower(AttackableCharacter, implements(Observer)):
 
     def updateForInvaderDeath(self, observed_invader):
         self._target = None
-        # observed_invader.removeAllObservers()
+        # observed_invader.removeAllObservers() #this prevents reassignment, don't know why
         if observed_invader in self._app.invaders:
             self._app.invaders.remove(observed_invader)
 
