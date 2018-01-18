@@ -90,9 +90,10 @@ class App:
 
 
     def startGame(self):
-        # TODO: should have Start Wave button disabled and enable it here.
+        if self._gameRunning:
+            return
+
         self._gameRunning = True
-        # Start the timer, which forces the next wave to start in a few seconds.
         self.updateTimer()
 
     def startNextWave(self):
