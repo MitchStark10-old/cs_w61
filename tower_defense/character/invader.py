@@ -1,6 +1,8 @@
 from character.attackable_character import AttackableCharacter
 from character.observable import Observable
 from interface import implements
+from distance_calculator import DistanceCalculator
+import math
 
 class Invader(AttackableCharacter, implements(Observable)):
     def __init__(self, canvas, path, bank, attack):
@@ -13,6 +15,7 @@ class Invader(AttackableCharacter, implements(Observable)):
         self._path = path
         self._bank = bank
         self._alive = True
+        self._movements = 0
 
         self._size = 4   # radius of circle to draw (for now)
 
@@ -47,7 +50,8 @@ class Invader(AttackableCharacter, implements(Observable)):
         self._observers.append(new_observer)
 
     def removeObserver(self, observer):
-        self._observers.remove(observer)
+        if observer in self._observers:
+            self._observers.remove(observer)
 
     def notifyObservers(self):
         for o in self._observers:
@@ -55,6 +59,9 @@ class Invader(AttackableCharacter, implements(Observable)):
 
     def removeAllObservers(self):
         self._observers = []
+    
+    def getMovementsBetweenAttack(self):
+        return self._attack.getMovementsBetweenFire() * 2
 
     def _compute_new_dir(self):
         '''Get (and remember) the next cell in that path, and then
@@ -77,7 +84,26 @@ class Invader(AttackableCharacter, implements(Observable)):
         else:
             self._ydir = -1
 
+    def getNearestTower(self):
+        known_towers = self._observers
+        smallest_distance = math.inf
+        return_tower = None
+
+        for t in known_towers:
+            current_distance = DistanceCalculator.calculateDistance(self.getXCoord(), self.getYCoord(), t.getXCoord(), t.getYCoord())
+            if current_distance < smallest_distance:
+                smallest_distance = current_distance
+                return_tower = t               
+
+        return return_tower
+
+
     def move(self):
+        if (self._movements % self.getMovementsBetweenAttack() == 0):
+            nearest_tower = self.getNearestTower()
+            if nearest_tower is not None:
+                self._attack.attack(nearest_tower, self)
+
         if self.getHealth() <= 0:
             #TODO: Remove this invader from the board
             if self._alive:
@@ -90,8 +116,10 @@ class Invader(AttackableCharacter, implements(Observable)):
             # move on to the next cell
             # TODO: HANDLE END OF PATH!
             self._compute_new_dir()
+
         self._x += self._xdir
         self._y += self._ydir
+        self._movements += 1
         self.notifyObservers()
 
     def getXCoord(self):

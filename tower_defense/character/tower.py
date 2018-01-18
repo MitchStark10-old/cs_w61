@@ -8,7 +8,7 @@ class Tower(AttackableCharacter, implements(Observer)):
         self._app = app
         self._cell = cell
         self.subscribeToAllInvaders()
-        start_health = 35
+        start_health = 100
         attack_range = attack.getCellRange() * 30
         AttackableCharacter.__init__(self, start_health, attack, attack_range)
         self._target = None
@@ -47,7 +47,26 @@ class Tower(AttackableCharacter, implements(Observer)):
             #Add as target
             self._target = observed_invader
 
+    def unsubscribeFromAllInvaders(self):
+        for i in self._app.invaders:
+            i.removeObserver(self)
+
+    def removeTowerFromGame(self):
+        #remove tower from canvas
+        self._cell.set_type('other')
+        #remove tower from subscribed list
+        self.unsubscribeFromAllInvaders()
+        #remove tower from app.towers
+        if self in self._app.towers:
+            self._app.towers.remove(self)
+        
+        del self
+
     def notify(self, observed_invader):
+        if (self.getHealth() <= 0):
+            self.removeTowerFromGame()
+            return
+
         if self._target == observed_invader:
             if observed_invader.getHealth() <= 0:
                 self.updateForInvaderDeath(observed_invader)
@@ -57,10 +76,10 @@ class Tower(AttackableCharacter, implements(Observer)):
         self.reassignTargetWhenNeeded(observed_invader)
 
     def getXCoord(self):
-        return self._cell.get_x()
+        return self._cell.get_center_x()
     
     def getYCoord(self):
-        return self._cell.get_y()
+        return self._cell.get_center_y()
 
     def getCoordinates(self):
         return self._cell.get_center()
