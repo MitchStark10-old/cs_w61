@@ -76,6 +76,7 @@ class App:
     def sendWave(self):
         # Create invader wave and let them move
         self.wave.readAndSendNextWave()
+        self._timeLeftTilWave.set(TIME_BETWEEN_WAVES)
 
 
     def highlight_cell(self, event):
@@ -106,10 +107,13 @@ class App:
 
     def updateTimer(self):
         timeLeft = self._timeLeftTilWave.get()
+        if timeLeft == 0:
+            self.sendWave()
+            self._canv.after(1000, self.updateTimer)
+            return
+
         timeLeft -= 1
         self._timeLeftTilWave.set(timeLeft)
-        if timeLeft == 0:
-            pass
         self._canv.after(1000, self.updateTimer)
         self.wave.sendInvader()
 
