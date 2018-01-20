@@ -6,6 +6,7 @@ from cell import *
 from path import *
 from character.invader import *
 from character.wave import Wave
+from resource_manager import ResourceManager
 from bank import Bank
 
 
@@ -18,10 +19,8 @@ INIT_GOLD_AMOUNT = 100
 
 class App:
     def __init__(self, root):
-        self._bank = Bank(self)
+        self.resource_manager = ResourceManager(Bank(self))
         self.wave_count = 1
-        self.towers = []
-        self.invaders = []
         self._root = root
         self._gameRunning = False
         self._currWaveNumber = 0
@@ -39,7 +38,7 @@ class App:
 
         Label(self._bottom_panel, text="Gold: ").pack(side=LEFT)
         self._goldAmtVar = IntVar()
-        self._goldAmtVar.set(self._bank.getMoney())
+        self._goldAmtVar.set(self.resource_manager.getMoney())
         self._goldLbl = Label(self._bottom_panel, textvariable=self._goldAmtVar)
         self._goldLbl.pack(side=LEFT)
 
@@ -58,7 +57,7 @@ class App:
         for row in range(NUM_CELLS_PER_DIM):
             rowlist = []
             for col in range(NUM_CELLS_PER_DIM):
-                cell = Cell(self._canv, col, row, SQUARE_SIZE, self)
+                cell = Cell(self._canv, col, row, SQUARE_SIZE, self.resource_manager)
                 rowlist.append(cell)
             self._grid.append(rowlist)
 
@@ -67,7 +66,7 @@ class App:
 
         # Read path info from a file and highlight the path on the screen.
         self.readPathInfo()
-        self.wave = Wave(self, self._canv, self._path)
+        self.wave = Wave(self.resource_manager, self._canv, self._path)
 
 
     def updateGoldAmount(self, new_gold_amount):

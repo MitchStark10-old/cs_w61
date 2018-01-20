@@ -8,9 +8,8 @@ import random
 
 class Cell:
     TYPE2COL = { 'path': 'brown', 'fire-tower': 'red', 'other': 'white', 'water-tower': 'blue', 'grass-tower': 'darkgreen' }
-    def __init__(self, canvas, x, y, size, app, type='other'):
-        self._app = app
-        self._bank = app._bank
+    def __init__(self, canvas, x, y, size, resource_manager, type='other'):
+        self._resource_manager = resource_manager
         self._canv = canvas
         self._x = x
         self._y = y
@@ -43,9 +42,9 @@ class Cell:
     def onClick(self, event=None):
         if (self._type == 'other'):
             #place tower
-            if (self._bank.buyTower()):
-                self._tower = Tower(FireAttack(self._canv), self._app, self)
-                self._app.towers.append(self._tower)
+            if (self._resource_manager.bank.buyTower()):
+                self._tower = Tower(FireAttack(self._canv), self._resource_manager, self)
+                self._resource_manager.towers.append(self._tower)
                 self.set_type('fire-tower')
             else:
                 print("Insufficient funds")

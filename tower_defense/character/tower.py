@@ -3,9 +3,9 @@ from character.attackable_character import AttackableCharacter
 from character.observer import Observer
 
 class Tower(AttackableCharacter, implements(Observer)):
-    def __init__(self, attack, app, cell):
+    def __init__(self, attack, resource_manager, cell):
         self._notification_count = 0
-        self._app = app
+        self._resource_manager = resource_manager
         self._cell = cell
         self.subscribeToAllInvaders()
         start_health = 100
@@ -14,14 +14,14 @@ class Tower(AttackableCharacter, implements(Observer)):
         self._target = None
 
     def subscribeToAllInvaders(self):
-        for i in self._app.invaders:
+        for i in self._resource_manager.invaders:
             i.addObserver(self)
 
     def updateForInvaderDeath(self, observed_invader):
         self._target = None
         # observed_invader.removeAllObservers() #this prevents reassignment, don't know why
-        if observed_invader in self._app.invaders:
-            self._app.invaders.remove(observed_invader)
+        if observed_invader in self._resource_manager.invaders:
+            self._resource_manager.invaders.remove(observed_invader)
 
     def _targetOutOfRange(self):
         invader_x, invader_y = self._target.getCoordinates()
@@ -48,7 +48,7 @@ class Tower(AttackableCharacter, implements(Observer)):
             self._target = observed_invader
 
     def unsubscribeFromAllInvaders(self):
-        for i in self._app.invaders:
+        for i in self._resource_manager.invaders:
             i.removeObserver(self)
 
     def removeTowerFromGame(self):
@@ -57,8 +57,8 @@ class Tower(AttackableCharacter, implements(Observer)):
         #remove tower from subscribed list
         self.unsubscribeFromAllInvaders()
         #remove tower from app.towers
-        if self in self._app.towers:
-            self._app.towers.remove(self)
+        if self in self._resource_manager.towers:
+            self._resource_manager.towers.remove(self)
         
         del self
 
