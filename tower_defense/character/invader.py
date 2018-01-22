@@ -7,7 +7,7 @@ import math
 class Invader(AttackableCharacter, implements(Observable)):
     def __init__(self, canvas, path, bank, attack):
         starting_health = 20
-        attack_range = 3
+        attack_range = 3 * 30
         AttackableCharacter.__init__(self, starting_health, attack, attack_range)
         self._color = self.getColorByAttackType()
         self._observers = []
@@ -102,7 +102,8 @@ class Invader(AttackableCharacter, implements(Observable)):
         if (self._movements % self.getMovementsBetweenAttack() == 0):
             nearest_tower = self.getNearestTower()
             if nearest_tower is not None:
-                self._attack.attack(nearest_tower, self)
+                if not DistanceCalculator.targetOutOfRange(self, nearest_tower, self._attack_range):
+                    self._attack.attack(nearest_tower, self)
 
         if self.getHealth() <= 0:
             #TODO: Remove this invader from the board
