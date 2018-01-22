@@ -1,6 +1,7 @@
 from interface import implements
 from character.attackable_character import AttackableCharacter
 from character.observer import Observer
+from distance_calculator import DistanceCalculator
 
 class Tower(AttackableCharacter, implements(Observer)):
     def __init__(self, attack, resource_manager, cell):
@@ -23,21 +24,11 @@ class Tower(AttackableCharacter, implements(Observer)):
         if observed_invader in self._resource_manager.invaders:
             self._resource_manager.invaders.remove(observed_invader)
 
-    def _targetOutOfRange(self):
-        invader_x, invader_y = self._target.getCoordinates()
-        self_x, self_y = self.getCoordinates()
-
-        if (invader_x < self_x + self._attack_range) and (invader_x > self_x - self._attack_range):
-            if (invader_y < self_y + self._attack_range) and (invader_y > self_y - self._attack_range):
-                return False
-
-        return True
-
     def sendAttack(self):
-        if (self._targetOutOfRange()):
+        if (DistanceCalculator.targetOutOfRange(self, self._target, self._attack_range)):
             self._target = None
             return
-
+    
         if (self._notification_count % self._attack.getMovementsBetweenFire()) == 0:
             self._attack.attack(self._target, self)
         self._notification_count += 1
