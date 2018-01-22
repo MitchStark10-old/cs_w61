@@ -49,6 +49,6 @@ class Projectile:
                                           self._x + self._size, self._y + self._size,
                                           fill = "Black")
             # TODO: not sure this is where I want this to happen...
-            self._canv.after(30, self.render)
+            self._canv.after(20, self.render)
         else:
             del self
