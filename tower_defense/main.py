@@ -27,10 +27,11 @@ class App:
         self._currWave = None
 
         self._canv = Canvas(root, width=CANVAS_DIM, height=CANVAS_DIM)
-        self._canv.pack()
+        
 
         self._bottom_panel = Frame(root)
         self._bottom_panel.pack()
+        self._canv.pack()
 
         self._btStartGame = Button(self._bottom_panel, text="Start Game",
                                    command=self.startGame)
