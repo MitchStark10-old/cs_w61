@@ -7,3 +7,8 @@ class ResourceManager:
 
     def getMoney(self):
         return self.bank.getMoney()
+
+    def removeAllInvaders(self):
+        for i in self.invaders[:]:
+            i.removeSelfFromGame()
+            self.invaders.remove(i)

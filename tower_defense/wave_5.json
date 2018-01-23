@@ -1,0 +1,6 @@
+{
+    "seconds_between_invaders": 1,
+    "invaders": [
+        "f", "g", "w", "f", "g", "w", "f", "g", "w", "f"
+    ]
+}

@@ -18,11 +18,8 @@ class Tower(AttackableCharacter, implements(Observer)):
         for i in self._resource_manager.invaders:
             i.addObserver(self)
 
-    def updateForInvaderDeath(self, observed_invader):
+    def updateForInvaderDeath(self):
         self._target = None
-        # observed_invader.removeAllObservers() #this prevents reassignment, don't know why
-        if observed_invader in self._resource_manager.invaders:
-            self._resource_manager.invaders.remove(observed_invader)
 
     def sendAttack(self):
         if (DistanceCalculator.targetOutOfRange(self, self._target, self._attack_range)):
@@ -60,7 +57,7 @@ class Tower(AttackableCharacter, implements(Observer)):
 
         if self._target == observed_invader:
             if observed_invader.getHealth() <= 0:
-                self.updateForInvaderDeath(observed_invader)
+                self.updateForInvaderDeath()
             else:
                 self.sendAttack()
             return

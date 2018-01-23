@@ -74,6 +74,7 @@ class App:
 
     def sendWave(self):
         # Create invader wave and let them move
+        self.resource_manager.removeAllInvaders()
         self.wave.readAndSendNextWave()
         self._timeLeftTilWave.set(TIME_BETWEEN_WAVES)
 

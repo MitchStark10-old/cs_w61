@@ -97,6 +97,9 @@ class Invader(AttackableCharacter, implements(Observable)):
 
         return return_tower
 
+    def removeSelfFromGame(self):
+        self._canv.delete(self._id)
+
 
     def move(self):
         if (self._movements % self.getMovementsBetweenAttack() == 0):
@@ -139,6 +142,8 @@ class Invader(AttackableCharacter, implements(Observable)):
                                           self._x + self._size, self._y + self._size,
                                           fill = self._color)
         # TODO: not sure this is where I want this to happen...
+        if not self._alive:
+            return
         self._canv.after(30, self.render)
                                           
 

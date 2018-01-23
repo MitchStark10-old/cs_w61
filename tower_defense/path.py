@@ -36,45 +36,46 @@ class Path:
 
     def get_cell(self, idx):
         if (idx >= len(self._path)):
+            print("You lose!")
             exit() #this means an invader has made it past the end of the path
         return self._path[idx]
 
 
-if __name__ == '__main__':
-    p = Path(4)
-    cells = [Cell(None, 0, 3, 5), Cell(None, 1, 3, 5), Cell(None, 2, 3, 5),
-             Cell(None, 3, 3, 5)]
-    for c in cells:
-        p.add_cell(c)
-    assert len(p) == 4
+# if __name__ == '__main__':
+#     p = Path(4)
+#     cells = [Cell(None, 0, 3, 5), Cell(None, 1, 3, 5), Cell(None, 2, 3, 5),
+#              Cell(None, 3, 3, 5)]
+#     for c in cells:
+#         p.add_cell(c)
+#     assert len(p) == 4
 
-    # Test starting cell not on an edge
-    p = Path(4)
-    try:
-        p.add_cell(Cell(None, 2, 2, 5))
-        assert False
-    except AssertionError:
-        pass
+#     # Test starting cell not on an edge
+#     p = Path(4)
+#     try:
+#         p.add_cell(Cell(None, 2, 2, 5))
+#         assert False
+#     except AssertionError:
+#         pass
 
-    # Test adding diagonally-adjacent cell -- not allowed.
-    p = Path(4)
-    p.add_cell(Cell(None, 3, 3, 5))
-    try:
-        p.add_cell(Cell(None, 2, 2, 5))
-        assert False
-    except AssertionError:
-        pass
+#     # Test adding diagonally-adjacent cell -- not allowed.
+#     p = Path(4)
+#     p.add_cell(Cell(None, 3, 3, 5))
+#     try:
+#         p.add_cell(Cell(None, 2, 2, 5))
+#         assert False
+#     except AssertionError:
+#         pass
     
-    # Test adding totally non-adjacent cell -- not allowed.
-    p = Path(4)
-    p.add_cell(Cell(None, 3, 3, 5))
-    try:
-        p.add_cell(Cell(None, 1, 3, 5))
-        assert False
-    except AssertionError:
-        pass
+#     # Test adding totally non-adjacent cell -- not allowed.
+#     p = Path(4)
+#     p.add_cell(Cell(None, 3, 3, 5))
+#     try:
+#         p.add_cell(Cell(None, 1, 3, 5))
+#         assert False
+#     except AssertionError:
+#         pass
 
-    print("All unit tests passed.")
+#     print("All unit tests passed.")
     
 
 
